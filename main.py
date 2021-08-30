@@ -19,7 +19,7 @@ def main():
 
     print("BASED")
     running = True
-
+    #loadImages();
     while running:
         pygame.event.pump()
 
@@ -30,7 +30,6 @@ def main():
 
         board.draw_squares(window)
         pygame.display.flip()
-        pygame.display.update()
 
 
 if __name__ == '__main__':
