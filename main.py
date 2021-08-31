@@ -1,10 +1,8 @@
     
 import pygame
 
-from chess.constants import (WHITE, BLACK, width, height, square_size, 
+from chess.board import (Board,WHITE, BLACK, width, height, square_size, 
     col, row)
-
-from chess.board import Board
 
 from pygame.locals import (K_DOWN, K_UP, K_LEFT, K_RIGHT, K_ESCAPE, 
     KEYDOWN, QUIT)
@@ -12,12 +10,13 @@ from pygame.locals import (K_DOWN, K_UP, K_LEFT, K_RIGHT, K_ESCAPE,
 
 def main():
     window = pygame.display.set_mode((width, height))
+    window.fill((125,125,125))
 
+ 
     pygame.init()
 
     board = Board()
 
-    print("BASED")
     running = True
     #loadImages();
     while running:
@@ -29,6 +28,8 @@ def main():
             running = False
 
         board.draw_squares(window)
+        board.load_images()
+        board.draw_pieces(window)
         pygame.display.flip()
 
 
