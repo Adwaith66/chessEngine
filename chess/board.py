@@ -61,17 +61,7 @@ class Board:
         for piece in pieces:
             IMAGES[piece] = pygame.transform.scale(pygame.image.load('images/' + piece + ".png"), (square_size,square_size))
             
-    def checkStraight(self, rownum, column):
-        moveList = []
-        try:
-            if self.chessBoard[rownum-1][column][0] != color or self.chessBoard[rownum-1][column] == '-' :
-                moveList.append(self.chessBoard[rownum-1][column])
-                self.checkStraight(rownum-1,column)
-        except:
-                print('error')
-                pass
-
-        return moveList
+    
 
     def move(self, startSquare, endSquare, moveList):
         if endSquare in moveList:
@@ -115,8 +105,8 @@ class Board:
             try:
                 if self.chessBoard[rownum+factor][column] == '--' and self.chessBoard[rownum+factor][column][0] != color:
                     moveList.append((rownum+factor,column))
-            except:
-                print('error')
+            except Exception as e:
+                print(e)
                 pass
             
             #Check 2 squares forward
@@ -124,24 +114,24 @@ class Board:
             try:
                 if self.chessBoard[rownum+(factor*2)][column] == '--' and (self.chessBoard[rownum+factor][column][0] != color and rownum == original):
                     moveList.append((rownum+(factor*2),column))
-            except:
-                print('error')
+            except Exception as e:
+                print(e)
                 pass
 
             #Check left diagonal
             try: 
                 if self.chessBoard[rownum+factor][column-1] != '--' and self.chessBoard[rownum+factor][column-1][0] != color:
                     moveList.append((rownum+factor,column-1))
-            except:
-                print('error')
+            except Exception as e:
+                print(e)
                 pass
 
             #Check right diagonal
             try:
                 if self.chessBoard[rownum+factor][column+1] != '--' and self.chessBoard[rownum+factor][column+1][0] != color:
                     moveList.append((rownum+factor,column+1))
-            except:
-                print('error')
+            except Exception as e:
+                print(e)
                 pass
 
         #Knight
@@ -154,16 +144,16 @@ class Board:
             try:
                 if self.chessBoard[rownum-1][column-2][0] != color:
                     moveList.append((rownum-1,column-2))
-            except:
-                print('error')
+            except Exception as e:
+                print(e)
                 pass
 
             #Left 1 up 2
             try:
                 if self.chessBoard[rownum-2][column-1][0] != color:
                     moveList.append((rownum-2,column-1))
-            except:
-                print('error')
+            except Exception as e:
+                print(e)
                 pass
 
             #Right 1 up 2
@@ -171,16 +161,16 @@ class Board:
                 if self.chessBoard[rownum-2][column+1][0] != color:
                     
                     moveList.append((rownum-2,column+1))
-            except:
-                print('error')
+            except Exception as e:
+                print(e)
                 pass
 
             #Right 2 up 1
             try:
                 if self.chessBoard[rownum-1][column+2][0] != color:
                     moveList.append((rownum-1,column+2))
-            except:
-                print('error')
+            except Exception as e:
+                print(e)
                 pass
 
           
@@ -188,40 +178,97 @@ class Board:
             try:
                 if self.chessBoard[rownum+1][column-2][0] != color:
                     moveList.append((rownum+1,column-2))
-            except:
-                print('error')
+            except Exception as e:
+                print(e)
                 pass
 
             #Left 1 down 2
             try:
                 if self.chessBoard[rownum+2][column-1][0] != color:
                     moveList.append((rownum+2,column-1))
-            except:
-                print('error')
+            except Exception as e:
+                print(e)
                 pass
 
             #Right 1 down 2
             try:
                 if self.chessBoard[rownum+2][column+1][0] != color:
                     moveList.append((rownum+2,column+1))
-            except:
-                print('error')
+            except Exception as e:
+                print(e)
                 pass
 
             #Right 2 down 1
             try:
                 if self.chessBoard[rownum+1][column+2][0] != color:
                     moveList.append((rownum+1,column+2))
-            except:
-                print('error')
+            except Exception as e:
+                print(e)
                 pass
         elif self.chessBoard[rownum][column][1] == 'R':
-            color = self.chessBoard[rownum][column][0]
-            moveList.append(self.checkStraight(rownum,column))
-            print(self.checkStraight(rownum,column), moveList)
+            moveList= self.checkStraight(rownum,column)
+            print('results:',self.checkStraight(rownum,column), moveList)
 
          
-    
+        print(moveList)
         return moveList
     
-  
+
+    #check all four linear directions and make list
+
+    def checkStraight(self, rownum, column):
+        moveList = []
+        color = self.chessBoard[rownum][column][0]
+
+        #check up
+        i = -1
+        try:
+            while ((self.chessBoard[rownum+i][column] == '--' or self.chessBoard[rownum+i][column][0] != color) and rownum+i>=0):
+                moveList.append((rownum+i,column))
+                i-=1
+            else:
+                pass
+        except Exception as e:
+                print(e)
+                pass
+
+        #check left 
+        i = -1
+        try:
+            while ((self.chessBoard[rownum][column+i] == '--' or self.chessBoard[rownum][column+i][0] != color) and column+i>=0):
+                moveList.append((rownum,column+i))
+                i-=1
+            else:
+                pass
+        except Exception as e:
+                print(e)
+                pass
+
+        #check bottom
+        i = 1
+        try:
+            while ((self.chessBoard[rownum+i][column] == '--' or self.chessBoard[rownum+i][column][0] != color) and rownum+i<=7):
+                moveList.append((rownum+i,column))
+                i+=1
+            else:
+                return moveList
+        except Exception as e:
+                print(e)
+                pass
+
+
+        #check right
+        i = 1
+        try:
+            while ((self.chessBoard[rownum][column+i] == '--' or self.chessBoard[rownum][column+i][0] != color) and column+i<=7):
+                moveList.append((rownum,column+i))
+                print("POG")
+                i+=1
+            else:
+                return moveList
+        except Exception as e:
+                return moveList
+                print(e)
+                pass
+
+

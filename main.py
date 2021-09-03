@@ -62,6 +62,7 @@ def main():
         board.draw_pieces(window)
         for move in moveList:
             pygame.draw.circle(window, (150,0,0), ((move[1]+0.5)*square_size, (move[0]+0.5)*square_size), 10, 100)
+            
         pygame.display.flip()
         
           #print(pressed_keys)
