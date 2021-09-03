@@ -16,7 +16,7 @@ def main():
     pygame.init()
 
     board = Board()
-
+    moveList = []
     running = True
     #loadImages();
     while running:
@@ -34,20 +34,37 @@ def main():
                 else:
                     board.selected_piece = (rownum, column)
                     board.selected_squares.append(board.selected_piece)
-                if len(board.selected_squares)==2:
-                    board.move(board.selected_squares[0], board.selected_squares[1])
-                    board.selected_piece = ()
-                    board.selected_squares = []
+                if len(board.selected_squares)==1:
+                    if(board.chessBoard[board.selected_piece[0]][board.selected_piece[1]])!='--':
+                        moveList = board.possibleMoves(window,rownum,column)
+                
+                elif len(board.selected_squares)==2:
+                    if(board.chessBoard[board.selected_squares[0][0]][board.selected_squares[0][1]]!='--'):
+                        board.move(board.selected_squares[0], board.selected_squares[1], moveList)
+                        board.selected_piece = ()
+                        board.selected_squares = []
+                    else:
+                        board.selected_piece = ()
+                        board.selected_squares = []
+                    moveList = []
                     
             elif event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
+                if pressed_keys[K_ESCAPE]:
                     running = False
+                elif pressed_keys[K_LEFT]:
+                    board.undo()
                     
 
         board.load_images()
+        window.fill((125,125,125))
+        
         board.draw_squares(window)
         board.draw_pieces(window)
+        for move in moveList:
+            pygame.draw.circle(window, (150,0,0), ((move[1]+0.5)*square_size, (move[0]+0.5)*square_size), 10, 100)
         pygame.display.flip()
+        
+          #print(pressed_keys)
         
 
 
