@@ -36,7 +36,7 @@ def main():
                     board.selected_squares.append(board.selected_piece)
                 if len(board.selected_squares)==1:
                     if(board.chessBoard[board.selected_piece[0]][board.selected_piece[1]])!='--':
-                        moveList = board.possibleMoves(window,rownum,column)
+                        moveList = board.possibleMoves( rownum,column)
                 
                 elif len(board.selected_squares)==2:
                     if(board.chessBoard[board.selected_squares[0][0]][board.selected_squares[0][1]]!='--'):
