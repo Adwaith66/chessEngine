@@ -5,6 +5,12 @@ from chess.board import (Board, WHITE, BLACK, width, height, square_size, col, r
 from pygame.locals import (K_DOWN, K_UP, K_LEFT, K_RIGHT, K_ESCAPE, 
     KEYDOWN, QUIT)
 
+from chess.PieceMoves import *
+
+
+
+
+
 # main function
 def main():
     window = pygame.display.set_mode((width, height))
@@ -43,7 +49,7 @@ def main():
                         board.selected_squares = []
                     else:
                         board.selected_piece = ()
-                        board.selected_squares = []
+                        board.selected_squares[0] = board.selected_piece
                     moveList = []
                     
             elif event.type == KEYDOWN:

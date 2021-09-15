@@ -1,6 +1,6 @@
 import pygame
 
-from PieceMoves import *
+from chess.PieceMoves import *
 width = 600
 height = 600
 row = 8
@@ -81,7 +81,6 @@ class Board:
                 self.chessBoard[erow][ecolumn] = 'wQ'
                 
             
-            print(self.move_log)
             
     def undo(self):
         if len(self.move_log)!=0:
@@ -104,7 +103,8 @@ class Board:
             #print('results:',self.checkStraight(rownum,column), moveList)
 
          
-        print(moveList)
+        print('MoveList:',moveList)
         return moveList
     
 
+    
