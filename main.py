@@ -1,13 +1,11 @@
-    
 import pygame
 
-from chess.board import (Board,WHITE, BLACK, width, height, square_size, 
-    col, row)
+from chess.board import (Board, WHITE, BLACK, width, height, square_size, col, row)
 
 from pygame.locals import (K_DOWN, K_UP, K_LEFT, K_RIGHT, K_ESCAPE, 
     KEYDOWN, QUIT)
 
-
+# main function
 def main():
     window = pygame.display.set_mode((width, height))
     window.fill((125,125,125))
@@ -74,4 +72,3 @@ if __name__ == '__main__':
 
 print("ending")
 pygame.quit()
-
