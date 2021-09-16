@@ -68,7 +68,7 @@ def containsPiece(self, rownum, column)->bool:
 
 
     except Exception as e:
-        print(e)
+        #print(e)
         return False
     
 def sameColor(self, rownum, column, color)-> bool:
@@ -77,7 +77,7 @@ def sameColor(self, rownum, column, color)-> bool:
         return self.chessBoard[currentPos[0]][currentPos[1]][0]
 
     except Exception as e:
-        print(e)
+        #print(e)
         return False
 
 
@@ -101,7 +101,7 @@ def checkStraight(self, rownum, column):
                 moveList.append(position)
         
         except Exception as e:
-            print(e)
+            #print(e)
             return moveList
 
         
@@ -126,7 +126,7 @@ def checkDiagonal(self, rownum, column):
                 moveList.append(position)
         
         except Exception as e:
-            print(e)
+            #print(e)
             return moveList
 
         

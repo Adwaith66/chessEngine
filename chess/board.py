@@ -101,7 +101,7 @@ class Board:
             return self.chessBoard[currentPos[0]][currentPos[1]][0]
 
         except Exception as e:
-            print(e)
+            #print(e)
             return False
             
     def showMoves(self,rownum, column, startSquare):
@@ -111,7 +111,7 @@ class Board:
             pass
             
         else:
-            print('color', color, 'toMove', self.whiteToMove)
+            #print('color', color, 'toMove', self.whiteToMove)
             return moveList
         #If pawn
         if self.chessBoard[rownum][column][1] == 'p':
@@ -152,15 +152,15 @@ class Board:
             #print('results:',self.checkStraight(rownum,column), moveList)
         elif self.chessBoard[rownum][column][1] =='B':
             moveList = checkDiagonal(self,rownum,column)
-            print("BISHOP MOVES", moveList)
+            #print("BISHOP MOVES", moveList)
 
         elif self.chessBoard[rownum][column][1] =='Q':
             moveList = checkDiagonal(self,rownum,column)
-            print('QUEEN MOVE DIAGONAL', moveList)
+            #print('QUEEN MOVE DIAGONAL', moveList)
             moveList2 = checkStraight(self,rownum,column)
-            print('QUEEN MOVE STRAIGHT', moveList)
+            #print('QUEEN MOVE STRAIGHT', moveList)
             moveList = moveList + moveList2
-            print('QUEEN MOVE LIST', moveList)
+            #print('QUEEN MOVE LIST', moveList)
         elif self.chessBoard[rownum][column][1] =='K':
             moveList = kingMoves(self,rownum,column)
          
@@ -182,37 +182,35 @@ class Board:
                     column = j
                     kingPosition = (rownum,column)
         
-        print('KingPosiiton',kingPosition)
-        print('Queen Possible Moves' ,self.possibleMoves2(3,7))
+        #print('KingPosiiton',kingPosition)
+        #print('Queen Possible Moves' ,self.possibleMoves2(3,7))
 
 
 
         for i in range(8):
             for j in range(8):
                 if kingPosition in self.possibleMoves2(i, j):
-                    print('Rownum', i)
-                    print('Column', j)
-                    print('Piece', self.chessBoard[i][j])
+                    #print('Rownum', i)
+                    #print('Column', j)
+                    ##print('Piece', self.chessBoard[i][j])
                     checked = True
 
-        if(checked):
-            print('INCHECK!LK:JSDFAL:KJSDPIJOH')
+  
         return checked
 
 
     def determineCheckMoves(self, startSquare, moveList):
+        moveList2 = []
         for i in moveList:
             testBoard = copy.deepcopy(self)
             
             testBoard.move(startSquare, i, moveList)
             #print(testBoard.whiteToMove)
             testBoard.whiteToMove=not testBoard.whiteToMove
-            if(testBoard.inCheck()):
-                moveList.remove(i)
+            if(not testBoard.inCheck()):
+                moveList2.append(i)
         #print('Updated Move List:', moveList)
-        return moveList
+        return moveList2
 
-
-    
 
     
