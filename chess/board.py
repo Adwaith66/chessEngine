@@ -28,7 +28,7 @@ class Board:
         self.chessBoard = [
         ['bR', 'bN', 'bB', 'bQ', 'bK', 'bB', 'bN', 'bR'],
         ['bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp'],
-        ['--', '--', '--', '--', '--', '--', '--', '--'],
+        ['--', '--', '--', '--', '--', '--', '--', '--'],   
         ['--', '--', '--', '--', '--', '--', '--', '--'],
         ['--', '--', '--', '--', '--', '--', '--', '--'],
         ['--', '--', '--', '--', '--', '--', '--', '--'],
@@ -75,7 +75,8 @@ class Board:
             
            
             self.chessBoard[erow][ecolumn] = self.chessBoard[srow][scolumn]
-            self.chessBoard[srow][scolumn] = '--';
+            self.chessBoard[srow][scolumn] = '--'
+            self.whiteToMove=not self.whiteToMove
             self.move_log.append((startSquare, endSquare, piecemoved, pieceremoved))
             if endSquare[0] == 0 and piecemoved == 'wp':
                 self.chessBoard[erow][ecolumn] = 'wQ'
@@ -87,6 +88,16 @@ class Board:
             self.chessBoard[self.move_log[-1][0][0]][self.move_log[-1][0][1]] = self.move_log[-1][2]
             self.chessBoard[self.move_log[-1][1][0]][self.move_log[-1][1][1]] = self.move_log[-1][3]
             self.move_log.pop()
+            self.whiteToMove = not self.whiteToMove
+
+    def sameColor(self, rownum, column, color):
+        try:
+            currentPos = [rownum, column]
+            return self.chessBoard[currentPos[0]][currentPos[1]][0]
+
+        except Exception as e:
+            print(e)
+            return False
             
     def possibleMoves(self,rownum, column):
         moveList = []
@@ -101,10 +112,40 @@ class Board:
         elif self.chessBoard[rownum][column][1] == 'R':
             moveList= checkStraight(self,rownum,column)
             #print('results:',self.checkStraight(rownum,column), moveList)
-
+        elif self.chessBoard[rownum][column][1] =='B':
+            moveList = checkDiagonal(self,rownum,column)
+        elif self.chessBoard[rownum][column][1] =='Q':
+            pass
+            moveList = checkDiagonal(self,rownum,column)
+            moveList2 = checkStraight(self,rownum,column)
+            moveList = moveList + moveList2
          
         print('MoveList:',moveList)
         return moveList
+    
+
+    def inCheck(self):
+        checked = False
+        if self.whiteToMove:
+            color = 'w'
+        else:
+            color = "b"
+        for i in range(8):
+            for j in range(8):
+                if self.chessBoard[i][j][0] == color and self.chessBoard[i][j][1]=='K':
+                    rownum = i
+                    column = j
+        kingPosition = (rownum,column)
+        for i in range(8):
+            for j in range(8):
+                if kingPosition in self.possibleMoves(i, j):
+                    print('Rownum', i)
+                    print('Column', j)
+                    print('Piece', self.chessBoard[i][j])
+                    checked = True
+        return checked
+
+
     
 
     

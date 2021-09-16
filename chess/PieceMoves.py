@@ -92,6 +92,34 @@ def checkStraight(self, rownum, column):
         
     return moveList
     
+def checkDiagonal(self, rownum, column):
+    moveList = []
+    color = self.chessBoard[rownum][column][0]
+    oppColor = 'b' if color == 'w' else 'w'
+    allMoves = [(-1,1),(1,-1),(1,1),(-1,-1)]
+    currentPos = (rownum, column)
+    position = currentPos
+
+    for i in allMoves:
+        position = currentPos
+        try:
+            while((containsPiece(self, position[0]+i[0], position[1]+i[1]) == False or sameColor(self,position[0]+i[0], position[1]+i[1], color)!=color) and ((position[0]+i[0]<=7 and position[0]+i[0]>=0) and (position[1]+i[1]<=7 and position[1]+i[1]>=0))):
+                position = addArray(i, position)
+                if(sameColor(self,position[0], position[1], color) == oppColor):
+                    moveList.append(position)
+                    break
+                moveList.append(position)
+        
+        except Exception as e:
+            print(e)
+            return moveList
+
+        
+    return moveList
+    
+    
+
+    
 def addArray(arr1, arr2):
     index = 0
     output = [0,0]
@@ -99,5 +127,3 @@ def addArray(arr1, arr2):
         output[index] = arr2[index]+i
         index = index+1
     return tuple(output)
-
-

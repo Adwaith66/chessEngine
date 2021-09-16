@@ -10,7 +10,6 @@ from chess.PieceMoves import *
 
 
 
-
 # main function
 def main():
     window = pygame.display.set_mode((width, height))
@@ -29,6 +28,7 @@ def main():
         pressed_keys = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
+                
                 location = pygame.mouse.get_pos()
                 column = location[0]//square_size
                 rownum = location[1]//square_size
@@ -40,7 +40,13 @@ def main():
                     board.selected_squares.append(board.selected_piece)
                 if len(board.selected_squares)==1:
                     if(board.chessBoard[board.selected_piece[0]][board.selected_piece[1]])!='--':
-                        moveList = board.possibleMoves( rownum,column)
+                        if (board.sameColor(board.selected_piece[0],board.selected_piece[1],'w')=='w' and board.whiteToMove) or (board.sameColor(board.selected_piece[0],board.selected_piece[1],'b')=='b' and not board.whiteToMove):
+                            moveList = board.possibleMoves( rownum,column)
+                            print("Turn:",board.whiteToMove, board.chessBoard[board.selected_piece[0]][board.selected_piece[1]][0])
+                        else:
+                            board.selected_piece = ()
+                            board.selected_squares = []
+
                 
                 elif len(board.selected_squares)==2:
                     if(board.chessBoard[board.selected_squares[0][0]][board.selected_squares[0][1]]!='--'):
@@ -48,9 +54,13 @@ def main():
                         board.selected_piece = ()
                         board.selected_squares = []
                     else:
+                        
+                        board.selected_squares = []
+                        board.selected_squares.append(board.selected_piece)
                         board.selected_piece = ()
-                        board.selected_squares[0] = board.selected_piece
                     moveList = []
+                if board.inCheck():
+                    print('Checked:', board.whiteToMove)
                     
             elif event.type == KEYDOWN:
                 if pressed_keys[K_ESCAPE]:
@@ -58,7 +68,7 @@ def main():
                 elif pressed_keys[K_LEFT]:
                     board.undo()
                     
-
+       
         board.load_images()
         window.fill((125,125,125))
         
