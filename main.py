@@ -38,12 +38,8 @@ def main():
                     board.selected_squares.append(board.selected_piece)
                 if len(board.selected_squares)==1:
                     if(board.chessBoard[board.selected_piece[0]][board.selected_piece[1]])!='--':
-                        if (board.sameColor(board.selected_piece[0],board.selected_piece[1],'w')=='w' and board.whiteToMove) or (board.sameColor(board.selected_piece[0],board.selected_piece[1],'b')=='b' and not board.whiteToMove):
-                            moveList = board.possibleMoves( rownum,column)
-                            print("Turn:",board.whiteToMove, board.chessBoard[board.selected_piece[0]][board.selected_piece[1]][0])
-                        else:
-                            board.selected_piece = ()
-                            board.selected_squares = []
+                        moveList = board.showMoves(rownum,column, board.selected_piece)
+                       
 
                 
                 elif len(board.selected_squares)==2:
@@ -57,8 +53,6 @@ def main():
                         board.selected_squares.append(board.selected_piece)
                         board.selected_piece = ()
                     moveList = []
-                if board.inCheck():
-                    print('Checked:', board.whiteToMove)
                     
             elif event.type == KEYDOWN:
                 if pressed_keys[K_ESCAPE]:

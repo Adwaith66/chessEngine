@@ -12,7 +12,7 @@ def pawnMoves(self,rownum, column):
         final = 7
     allMoves = [(0,0),(0,1),(0,-1)]
     newFactor = factor
-    print("Piece pos", currentPos)
+    #print("Piece pos", currentPos)
 
         #Check 1 square forward
     for i in allMoves:
@@ -32,14 +32,28 @@ def pawnMoves(self,rownum, column):
 def knightMoves(self,rownum,column):
         color = self.chessBoard[rownum][column][0]
         moveList = []
-        allMoves = [(-1,-2),(-2,-1),(-2,1),(-1,2),(1,-2),(2,1),(2,1),(1,2)]
+        allMoves = [(-1,-2),(-2,-1),(-2,1),(-1,2),(1,-2),(2,1),(2,-1),(1,2)]
         currentPos = (rownum, column)
+        #print("COlro:",color)
      #Left 2 up 1
         for i in allMoves:
             position = addArray(currentPos, i)
             if sameColor(self, position[0],position[1],color) != color:
                 moveList.append(position)
         return moveList
+
+def kingMoves(self,rownum,column):
+        color = self.chessBoard[rownum][column][0]
+        moveList = []
+        allMoves = [(-1,0),(-1,1),(1,0),(1,1),(-1,-1),(0,1),(0,-1),(1,-1)]
+        currentPos = (rownum, column)
+     
+        for i in allMoves:
+            position = addArray(currentPos, i)
+            if sameColor(self, position[0],position[1],color) != color:
+                moveList.append(position)
+        return moveList
+
 
 
     #check all four linear directions and make list
@@ -48,7 +62,7 @@ def containsPiece(self, rownum, column)->bool:
     currentPos = [rownum, column]
 
     try: 
-        print("Piece:", self.chessBoard[currentPos[0]][currentPos[1]])
+        #print("Piece:", self.chessBoard[currentPos[0]][currentPos[1]])
         isPiece = self.chessBoard[currentPos[0]][currentPos[1]]!='--'
         return isPiece
 
@@ -80,6 +94,7 @@ def checkStraight(self, rownum, column):
         try:
             while((containsPiece(self, position[0]+i[0], position[1]+i[1]) == False or sameColor(self,position[0]+i[0], position[1]+i[1], color)!=color) and ((position[0]+i[0]<=7 and position[0]+i[0]>=0) and (position[1]+i[1]<=7 and position[1]+i[1]>=0))):
                 position = addArray(i, position)
+                #print('Eror')
                 if(sameColor(self,position[0], position[1], color) == oppColor):
                     moveList.append(position)
                     break
