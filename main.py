@@ -8,9 +8,7 @@ from pygame.locals import (K_DOWN, K_UP, K_LEFT, K_RIGHT, K_ESCAPE,
 from chess.PieceMoves import *
 
 
-
-
-# main function
+#main function
 def main():
     window = pygame.display.set_mode((width, height))
     window.fill((125,125,125))

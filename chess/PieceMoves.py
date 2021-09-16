@@ -118,8 +118,6 @@ def checkDiagonal(self, rownum, column):
     return moveList
     
     
-
-    
 def addArray(arr1, arr2):
     index = 0
     output = [0,0]
