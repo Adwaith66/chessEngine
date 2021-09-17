@@ -8,6 +8,7 @@ from pygame.locals import (K_DOWN, K_UP, K_LEFT, K_RIGHT, K_ESCAPE,
 from chess.PieceMoves import *
 
 
+
 #main function
 def main():
     window = pygame.display.set_mode((width, height))
@@ -43,10 +44,14 @@ def main():
 
                 
                 elif len(board.selected_squares)==2:
+                    if board.checkMate():
+                            s = 'Black Wins' if board.whiteToMove else 'White Wins!'
+                            print(s)
                     if(board.chessBoard[board.selected_squares[0][0]][board.selected_squares[0][1]]!='--'):
                         board.move(board.selected_squares[0], board.selected_squares[1], moveList)
                         board.selected_piece = ()
                         board.selected_squares = []
+                        
                     else:
                         
                         board.selected_squares = []
@@ -68,7 +73,8 @@ def main():
         board.draw_pieces(window)
         for move in moveList:
             pygame.draw.circle(window, (150,0,0), ((move[1]+0.5)*square_size, (move[0]+0.5)*square_size), 10, 100)
-            
+       
+            #running=False
         pygame.display.flip()
         
           #print(pressed_keys)

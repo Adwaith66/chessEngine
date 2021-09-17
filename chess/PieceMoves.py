@@ -1,3 +1,6 @@
+from chess.board import *
+
+
 def pawnMoves(self,rownum, column):
     moveList = []
     currentPos = (rownum,column)
@@ -11,7 +14,6 @@ def pawnMoves(self,rownum, column):
         original = 1
         final = 7
     allMoves = [(0,0),(0,1),(0,-1)]
-    newFactor = factor
     #print("Piece pos", currentPos)
 
         #Check 1 square forward
@@ -21,8 +23,8 @@ def pawnMoves(self,rownum, column):
         if(i == (0,0)):
             if containsPiece(self, position[0], position[1])==False and sameColor(self, position[0], position[1], color) != color:
                 moveList.append(position)
-            if (containsPiece(self, addArray(position,factor)[0], position[1])==False and sameColor(self, addArray(position,factor)[0], position[1], color) != color) and rownum==original:
-                moveList.append(addArray(position,factor))
+                if (containsPiece(self, addArray(position,factor)[0], position[1])==False and sameColor(self, addArray(position,factor)[0], position[1], color) != color) and rownum==original:
+                    moveList.append(addArray(position,factor))
         else:
             if containsPiece(self, position[0], position[1]) and sameColor(self, position[0], position[1], color) != color:
                 moveList.append(position)
@@ -52,6 +54,8 @@ def kingMoves(self,rownum,column):
             position = addArray(currentPos, i)
             if sameColor(self, position[0],position[1],color) != color:
                 moveList.append(position)
+
+
         return moveList
 
 
@@ -140,3 +144,4 @@ def addArray(arr1, arr2):
         output[index] = arr2[index]+i
         index = index+1
     return tuple(output)
+
