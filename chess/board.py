@@ -183,14 +183,7 @@ class Board:
     def showMoves2(self,rownum, column, startSquare):
         moveList = []
         color = self.sameColor(startSquare[0],startSquare[1], 'w')
-        self.whiteToMove = not self.whiteToMove
-        if ((color == 'w' and self.whiteToMove) or (color == 'b' and not self.whiteToMove)):
-            pass
-            self.whiteToMove = not self.whiteToMove
-        else:
-            #print('color', color, 'toMove', self.whiteToMove)
-            self.whiteToMove = not self.whiteToMove
-            return moveList
+        
         #If pawn
         if self.chessBoard[rownum][column][1] == 'p':
             moveList = pawnMoves(self,rownum,column)
@@ -261,7 +254,6 @@ class Board:
         
         #print('KingPosiiton',kingPosition)
         #print('Queen Possible Moves' ,self.possibleMoves2(3,7))
-
 
 
         for i in range(8):
@@ -374,20 +366,20 @@ class Board:
 
     def checkMate(self) -> bool:
         allPossibleMoves = []
-        print('_______________________________________')
-        color = 'b' if self.whiteToMove else 'w'
+        #print('_______________________________________')
+        color = 'w' if self.whiteToMove else 'b'
         for i in range(8):
             for j in range(8):
                 #print(i,j)
                 if(self.chessBoard[i][j][0] == color):
-                    print('Piece', i, j)
+                    #print('Piece', i, j)
                     for x in self.showMoves2(i,j, (i,j)):
                         allPossibleMoves.append(x)
-                        print('current value', allPossibleMoves)
-                    print(self.showMoves2(i,j, (i,j)))
+                        #print('current value', allPossibleMoves)
+                    #print(self.showMoves2(i,j, (i,j)))
 
         allPossibleMoves = self.filterOutNotInBoard(allPossibleMoves)
-        print(allPossibleMoves)
+        #print(allPossibleMoves)
         return allPossibleMoves==[]
 
 

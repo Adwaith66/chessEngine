@@ -29,15 +29,13 @@ def main():
 
     while running:
         pygame.event.pump()
-
+        if board.checkMate():
+            s = ('Black Wins!' if board.whiteToMove else 'White Wins!')
+            print(s)
+            break
         pressed_keys = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if board.checkMate():
-                    s = ('Black Wins!' if board.whiteToMove else 'White Wins!')
-                    print(s)
-                 
-
                 location = pygame.mouse.get_pos() # returns location of the mouse as a tuple (#, #) --> (x, y)
                 column = location[0] // square_size
                 rownum = location[1] // square_size
