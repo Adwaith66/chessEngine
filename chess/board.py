@@ -17,10 +17,10 @@ IMAGES = {}
 
 
 class Board:
-    rowsToRanks = {'0':'8','1':'7','2':'6','3':'5','4':'4','5':'3','6':'2','7':'1'}
-    columnsToFiles = {'0':'a','1':'b','2':'c','3':'d','4':'e','5':'f','6':'g','7':'h'}
-    ranksToRows =  ((v, k) for k,v in rowsToRanks.items())
-    filesToColumns =  ((v, k) for k,v in columnsToFiles.items())
+    # rowsToRanks = {'0':'8','1':'7','2':'6','3':'5','4':'4','5':'3','6':'2','7':'1'}
+    # columnsToFiles = {'0':'a','1':'b','2':'c','3':'d','4':'e','5':'f','6':'g','7':'h'}
+    # ranksToRows =  ((v, k) for k,v in rowsToRanks.items())
+    # filesToColumns =  ((v, k) for k,v in columnsToFiles.items())
     whiteToMove = True
     wkingHasMoved = False
     wshortRookHasMoved = False
@@ -28,9 +28,10 @@ class Board:
     bkingHasMoved = False
     bshortRookHasMoved = False
     blongRookHasMoved = False
-    moveLog = []
+    moveLog = [] # --> adds completed moves to list; undo access
 
     def __init__(self):
+        # updatable
         self.chessBoard = [
         ['bR', 'bN', 'bB', 'bQ', 'bK', 'bB', 'bN', 'bR'],
         ['bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp'],
@@ -40,13 +41,10 @@ class Board:
         ['--', '--', '--', '--', '--', '--', '--', '--'],
         ['wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp'],
         ['wR', 'wN', 'wB', 'wQ', 'wK', 'wB', 'wN', 'wR']
-    
-
     ]
+        # initial attributes
         self.selected_piece = ()
         self.selected_squares = []
-        self.white_left = self.black_left = 16
-        self.white_kings = self.black_kings = 1
         self.move_log = []
 
     def draw_squares(self, window):
@@ -96,27 +94,27 @@ class Board:
                 self.move_log.append((startSquare, endSquare, piecemoved, pieceremoved))
                 if piecemoved == 'wK':
                     self.wkingHasMoved = True
-                    if endSquare==addArray(startSquare,(0,2)):
+                    if endSquare == addArray(startSquare,(0, 2)):
                         print('startsq', startSquare, 'endsq', endSquare)
                         self.move2((7,7),(7,5))
-                    if endSquare==addArray(startSquare,(0,-2)):
+                    if endSquare == addArray(startSquare,(0, -2)):
                         print('startsq', startSquare, 'endsq', endSquare)
                         self.move2((7,0),(7,3))
                 elif piecemoved == 'bK':
                     self.bkingHasMoved = True
-                    if endSquare==addArray(startSquare,(0,2)):
+                    if endSquare == addArray(startSquare,(0, 2)):
                         print('startsq', startSquare, 'endsq', endSquare)
                         self.move2((0,7),(0,5))
-                    if endSquare==addArray(startSquare,(0,-2)):
+                    if endSquare == addArray(startSquare,(0, -2)):
                         print('startsq', startSquare, 'endsq', endSquare)
                         self.move2((0,0),(0,3))
-                elif piecemoved == 'wR' and (srow,scolumn) == (7,7):
+                elif piecemoved == 'wR' and (srow, scolumn) == (7,7):
                     self.wshortRookHasMoved = True
                 elif piecemoved == 'wR' and (srow, scolumn) == (7,0):
                     self.wlongRookHasMoved = True 
-                elif piecemoved == 'bR' and (srow,scolumn) == (0,7):
+                elif piecemoved == 'bR' and (srow, scolumn) == (0,7):
                     self.bshortRookHasMoved = True
-                elif piecemoved == 'bR' and (srow,scolumn) == (0,0):
+                elif piecemoved == 'bR' and (srow, scolumn) == (0,0):
                     self.blongRookHasMoved = True
 
                 if endSquare[0] == 0 and piecemoved == 'wp':
@@ -144,7 +142,7 @@ class Board:
     def showMoves(self,rownum, column, startSquare):
         moveList = []
         color = self.sameColor(startSquare[0],startSquare[1], 'w')
-        if ((color=='w' and self.whiteToMove) or (color=='b' and not self.whiteToMove)):
+        if ((color =='w' and self.whiteToMove) or (color == 'b' and not self.whiteToMove)):
             pass
             
         else:
@@ -173,9 +171,9 @@ class Board:
             kingRow = kingPos[0]
             kingCol = kingPos[1]
             if (self.canCastleS()):
-                moveList.append((kingRow,kingCol+2))
+                moveList.append((kingRow,kingCol + 2))
             if (self.canCastleL()):
-                moveList.append((kingRow,kingCol-2))
+                moveList.append((kingRow,kingCol - 2))
          
         #print('MoveList:',moveList)
         moveList = self.determineCheckMoves(startSquare, moveList)
@@ -186,7 +184,7 @@ class Board:
         moveList = []
         color = self.sameColor(startSquare[0],startSquare[1], 'w')
         self.whiteToMove = not self.whiteToMove
-        if ((color=='w' and self.whiteToMove) or (color=='b' and not self.whiteToMove)):
+        if ((color == 'w' and self.whiteToMove) or (color == 'b' and not self.whiteToMove)):
             pass
             self.whiteToMove = not self.whiteToMove
         else:
@@ -202,7 +200,7 @@ class Board:
             moveList = knightMoves(self,rownum, column)
             
         elif self.chessBoard[rownum][column][1] == 'R':
-            moveList= checkStraight(self,rownum,column)
+            moveList = checkStraight(self,rownum,column)
             #print('results:',self.checkStraight(rownum,column), moveList)
         elif self.chessBoard[rownum][column][1] =='B':
             moveList = checkDiagonal(self,rownum,column)
@@ -236,7 +234,7 @@ class Board:
             moveList = knightMoves(self,rownum, column)
             
         elif self.chessBoard[rownum][column][1] == 'R':
-            moveList= checkStraight(self,rownum,column)
+            moveList = checkStraight(self,rownum,column)
             #print('results:',self.checkStraight(rownum,column), moveList)
         elif self.chessBoard[rownum][column][1] =='B':
             moveList = checkDiagonal(self,rownum,column)
@@ -352,11 +350,11 @@ class Board:
             testBoard = Board()
             testBoard = copy.deepcopy(self)
             moveList = self.possibleMoves2(kingRow,kingCol)
-            print('OriginalMoveList' , moveList)
+            #print('OriginalMoveList' , moveList)
             testBoard.move(kingPos,(kingRow, kingCol-1), moveList)
             canCastle = (kingRow,kingCol-2) in testBoard.possibleMoves2(kingRow,kingCol-1)
-            print('newMoveList',testBoard.possibleMoves2(kingRow,kingCol-1))
-            print(canCastle)
+            #print('newMoveList',testBoard.possibleMoves2(kingRow,kingCol-1))
+            #print(canCastle)
         return canCastle
 
     def addArray(arr1, arr2):
@@ -370,19 +368,22 @@ class Board:
     def filterOutNotInBoard(self,arr):
         arr2 = []
         for i in arr:
-            if ((i[0]>=0 or i[0]<=7) and (i[1]>=7 or i[1]<=0)):
+            if ((i[0]>=0 and i[0]<=7) and (i[1]<=7 and i[1]>=0)):
                 arr2.append(i)
         return arr2
 
     def checkMate(self) -> bool:
         allPossibleMoves = []
+        print('_______________________________________')
         color = 'b' if self.whiteToMove else 'w'
         for i in range(8):
             for j in range(8):
                 #print(i,j)
                 if(self.chessBoard[i][j][0] == color):
+                    print('Piece', i, j)
                     for x in self.showMoves2(i,j, (i,j)):
                         allPossibleMoves.append(x)
+                        print('current value', allPossibleMoves)
                     print(self.showMoves2(i,j, (i,j)))
 
         allPossibleMoves = self.filterOutNotInBoard(allPossibleMoves)
